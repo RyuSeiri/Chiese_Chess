@@ -1,147 +1,154 @@
-import javax.swing.*; 
-import java.awt.*; 
-import java.awt.event.*; 
-import java.util.LinkedList; 
-  
-/** 
- * ÖÆ×÷ÆåÆ×Àà 
+import java.awt.BorderLayout;
+import java.awt.Font;
+import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.LinkedList;
+
+import javax.swing.JButton;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+
+/**
+ * åˆ¶ä½œæ£‹è°±ç±»
  * 
- * @author cnlht 
+ * @author cnlht
  */
-public class MakeChessManual extends JPanel implements ActionListener { 
- JTextArea text = null; 
- JScrollPane scroll = null; 
- ChessBoard board = null; 
- ChessPoint[][] point; 
- LinkedList ÆåÆ× = null; 
- LinkedList ³ÔµôµÄÆå×Ó = null; 
- JButton buttonUndo; 
- int i = 0; 
-  
- public MakeChessManual(ChessBoard board, ChessPoint[][] point) { 
-  this.board = board; 
-  this.point = point; 
-  text = new JTextArea(); 
-  scroll = new JScrollPane(text); 
-  ÆåÆ× = new LinkedList(); 
-  ³ÔµôµÄÆå×Ó = new LinkedList(); 
-  buttonUndo = new JButton("»ÚÆå"); 
-  buttonUndo.setFont(new Font("Á¥Êé", Font.PLAIN, 18)); 
-  setLayout(new BorderLayout()); 
-  add(scroll, BorderLayout.CENTER); 
-  add(buttonUndo, BorderLayout.SOUTH); 
-  buttonUndo.addActionListener(this); 
- } 
-  
- public char numberToLetter(int n) { 
-  char c = '\0'; 
-  switch (n) { 
-  case 1: 
-   c = 'A'; 
-   break; 
-  case 2: 
-   c = 'B'; 
-   break; 
-  case 3: 
-   c = 'C'; 
-   break; 
-  case 4: 
-   c = 'D'; 
-   break; 
-  case 5: 
-   c = 'E'; 
-   break; 
-  case 6: 
-   c = 'F'; 
-   break; 
-  case 7: 
-   c = 'G'; 
-   break; 
-  case 8: 
-   c = 'H'; 
-   break; 
-  case 9: 
-   c = 'I'; 
-   break; 
-  case 10: 
-   c = 'J'; 
-   break; 
-  } 
-  return c; 
- } 
-  
- public void ¼ÇÂ¼ÆåÆ×(ChessPiece piece, int startI, int startJ, int endI, 
-   int endJ) { 
-  Point pStart = new Point(startI, startJ); 
-  Point pEnd = new Point(endI, endJ); 
-  MoveStep step = new MoveStep(pStart, pEnd); 
-  ÆåÆ×.add(step); 
-  
-  String Æå×ÓÀà±ğ = piece.Æå×ÓÀà±ğ(); 
-  String name = piece.getName(); 
-  String m = "#" + Æå×ÓÀà±ğ + name + ": " + startI + numberToLetter(startJ) 
-    + " µ½ " + endI + numberToLetter(endJ); 
-  text.append(m); 
-  if (piece.Æå×ÓÀà±ğ().equals(board.ºÚ·½ÑÕÉ«)) 
-   text.append("\n"); 
- } 
-  
- public void ¼ÇÂ¼³ÔµôµÄÆå×Ó(Object object) { 
-  ³ÔµôµÄÆå×Ó.add(object); 
- } 
-  
- public LinkedList »ñÈ¡ÆåÆ×() { 
-  return ÆåÆ×; 
- } 
-  
- public void actionPerformed(ActionEvent e) { 
-  int position = text.getText().lastIndexOf("#"); 
-  if (position != -1) 
-   text.replaceRange("", position, text.getText().length()); 
-  if (ÆåÆ×.size() > 0) { 
-   MoveStep lastStep = (MoveStep) ÆåÆ×.getLast(); 
-   ÆåÆ×.removeLast(); 
-   Object qizi = ³ÔµôµÄÆå×Ó.getLast(); 
-   ³ÔµôµÄÆå×Ó.removeLast(); 
-   String temp = qizi.toString(); 
-   if (temp.equals("Ã»³ÔÆå×Ó")) { 
-    int startI = lastStep.pStart.x; 
-    int startJ = lastStep.pStart.y; 
-    int endI = lastStep.pEnd.x; 
-    int endJ = lastStep.pEnd.y; 
-    ChessPiece piece = point[endI][endJ].getPiece(); 
-  
-    point[startI][startJ].setPiece(piece, board); 
-    (point[endI][endJ]).setÓĞÆå×Ó(false); 
-  
-    if (piece.Æå×ÓÀà±ğ().equals(board.ºì·½ÑÕÉ«)) { 
-     board.ºì·½×ßÆå = true; 
-     board.ºÚ·½×ßÆå = false; 
-    } 
-    if (piece.Æå×ÓÀà±ğ().equals(board.ºÚ·½ÑÕÉ«)) { 
-     board.ºÚ·½×ßÆå = true; 
-     board.ºì·½×ßÆå = false; 
-    } 
-   } else { 
-    ChessPiece removedPiece = (ChessPiece) qizi; 
-    int startI = lastStep.pStart.x; 
-    int startJ = lastStep.pStart.y; 
-    int endI = lastStep.pEnd.x; 
-    int endJ = lastStep.pEnd.y; 
-    ChessPiece piece = point[endI][endJ].getPiece(); 
-    point[startI][startJ].setPiece(piece, board); 
-    point[endI][endJ].setPiece(removedPiece, board); 
-    (point[endI][endJ]).setÓĞÆå×Ó(true); 
-  
-    if (piece.Æå×ÓÀà±ğ().equals(board.ºì·½ÑÕÉ«)) { 
-     board.ºì·½×ßÆå = true; 
-     board.ºÚ·½×ßÆå = false; 
-    } 
-    if (piece.Æå×ÓÀà±ğ().equals(board.ºÚ·½ÑÕÉ«)) { 
-     board.ºÚ·½×ßÆå = true; 
-     board.ºì·½×ßÆå = false; 
-    } 
-   } 
-  } 
- } 
-} 
+public class MakeChessManual extends JPanel implements ActionListener {
+  JTextArea text = null;
+  JScrollPane scroll = null;
+  ChessBoard board = null;
+  ChessPoint[][] point;
+  LinkedList æ£‹è°± = null;
+  LinkedList åƒæ‰çš„æ£‹å­ = null;
+  JButton buttonUndo;
+  int i = 0;
+
+  public MakeChessManual(ChessBoard board, ChessPoint[][] point) {
+    this.board = board;
+    this.point = point;
+    text = new JTextArea();
+    scroll = new JScrollPane(text);
+    æ£‹è°± = new LinkedList();
+    åƒæ‰çš„æ£‹å­ = new LinkedList();
+    buttonUndo = new JButton("æ‚”æ£‹");
+    buttonUndo.setFont(new Font("éš¶ä¹¦", Font.PLAIN, 18));
+    setLayout(new BorderLayout());
+    add(scroll, BorderLayout.CENTER);
+    add(buttonUndo, BorderLayout.SOUTH);
+    buttonUndo.addActionListener(this);
+  }
+
+  public char numberToLetter(int n) {
+    char c = '\0';
+    switch (n) {
+      case 1:
+        c = 'A';
+        break;
+      case 2:
+        c = 'B';
+        break;
+      case 3:
+        c = 'C';
+        break;
+      case 4:
+        c = 'D';
+        break;
+      case 5:
+        c = 'E';
+        break;
+      case 6:
+        c = 'F';
+        break;
+      case 7:
+        c = 'G';
+        break;
+      case 8:
+        c = 'H';
+        break;
+      case 9:
+        c = 'I';
+        break;
+      case 10:
+        c = 'J';
+        break;
+    }
+    return c;
+  }
+
+  public void è®°å½•æ£‹è°±(ChessPiece piece, int startI, int startJ, int endI,
+      int endJ) {
+    Point pStart = new Point(startI, startJ);
+    Point pEnd = new Point(endI, endJ);
+    MoveStep step = new MoveStep(pStart, pEnd);
+    æ£‹è°±.add(step);
+
+    String æ£‹å­ç±»åˆ« = piece.æ£‹å­ç±»åˆ«();
+    String name = piece.getName();
+    String m = "#" + æ£‹å­ç±»åˆ« + name + ": " + startI + numberToLetter(startJ)
+        + " åˆ° " + endI + numberToLetter(endJ);
+    text.append(m);
+    if (piece.æ£‹å­ç±»åˆ«().equals(board.é»‘æ–¹é¢œè‰²))
+      text.append("\n");
+  }
+
+  public void è®°å½•åƒæ‰çš„æ£‹å­(Object object) {
+    åƒæ‰çš„æ£‹å­.add(object);
+  }
+
+  public LinkedList è·å–æ£‹è°±() {
+    return æ£‹è°±;
+  }
+
+  public void actionPerformed(ActionEvent e) {
+    int position = text.getText().lastIndexOf("#");
+    if (position != -1)
+      text.replaceRange("", position, text.getText().length());
+    if (æ£‹è°±.size() > 0) {
+      MoveStep lastStep = (MoveStep) æ£‹è°±.getLast();
+      æ£‹è°±.removeLast();
+      Object qizi = åƒæ‰çš„æ£‹å­.getLast();
+      åƒæ‰çš„æ£‹å­.removeLast();
+      String temp = qizi.toString();
+      if (temp.equals("æ²¡åƒæ£‹å­")) {
+        int startI = lastStep.pStart.x;
+        int startJ = lastStep.pStart.y;
+        int endI = lastStep.pEnd.x;
+        int endJ = lastStep.pEnd.y;
+        ChessPiece piece = point[endI][endJ].getPiece();
+
+        point[startI][startJ].setPiece(piece, board);
+        (point[endI][endJ]).setæœ‰æ£‹å­(false);
+
+        if (piece.æ£‹å­ç±»åˆ«().equals(board.çº¢æ–¹é¢œè‰²)) {
+          board.çº¢æ–¹èµ°æ£‹ = true;
+          board.é»‘æ–¹èµ°æ£‹ = false;
+        }
+        if (piece.æ£‹å­ç±»åˆ«().equals(board.é»‘æ–¹é¢œè‰²)) {
+          board.é»‘æ–¹èµ°æ£‹ = true;
+          board.çº¢æ–¹èµ°æ£‹ = false;
+        }
+      } else {
+        ChessPiece removedPiece = (ChessPiece) qizi;
+        int startI = lastStep.pStart.x;
+        int startJ = lastStep.pStart.y;
+        int endI = lastStep.pEnd.x;
+        int endJ = lastStep.pEnd.y;
+        ChessPiece piece = point[endI][endJ].getPiece();
+        point[startI][startJ].setPiece(piece, board);
+        point[endI][endJ].setPiece(removedPiece, board);
+        (point[endI][endJ]).setæœ‰æ£‹å­(true);
+
+        if (piece.æ£‹å­ç±»åˆ«().equals(board.çº¢æ–¹é¢œè‰²)) {
+          board.çº¢æ–¹èµ°æ£‹ = true;
+          board.é»‘æ–¹èµ°æ£‹ = false;
+        }
+        if (piece.æ£‹å­ç±»åˆ«().equals(board.é»‘æ–¹é¢œè‰²)) {
+          board.é»‘æ–¹èµ°æ£‹ = true;
+          board.çº¢æ–¹èµ°æ£‹ = false;
+        }
+      }
+    }
+  }
+}

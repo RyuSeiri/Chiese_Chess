@@ -1,369 +1,375 @@
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.Rectangle;
+import java.awt.Toolkit;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 
-	import javax.swing.*; 
-	import java.awt.*; 
-	import java.awt.event.*; 
-	  
-	/** 
-	 * ÆåÅÌÀà 
-	 * 
-	 * @author cnlht 
-	 */
-	public class ChessBoard extends JPanel implements MouseListener, 
-	  MouseMotionListener { 
-	 public ChessPoint point[][]; 
-	 public int unitWidth, unitHeight; 
-	 private int xÖá³¤, yÖá³¤; 
-	 private int x, y; 
-	 private Image img; 
-	 protected Image pieceImg; 
-	 private boolean move = false; 
-	 public String ºì·½ÑÕÉ« = "ºì·½", ºÚ·½ÑÕÉ« = "ºÚ·½"; 
-	 ChessPiece ºì³µ1, ºì³µ2, ºìÂí1, ºìÂí2, ºìÏà1, ºìÏà2, ºìË§, ºìÊ¿1, ºìÊ¿2, ºì±ø1, ºì±ø2, ºì±ø3, ºì±ø4, 
-	   ºì±ø5, ºìÅÚ1, ºìÅÚ2; 
-	 ChessPiece ºÚ³µ1, ºÚ³µ2, ºÚÂí1, ºÚÂí2, ºÚ½«, ºÚÊ¿1, ºÚÊ¿2, ºÚ×ä1, ºÚ×ä2, ºÚ×ä3, ºÚ×ä4, ºÚ×ä5, ºÚÏó1, 
-	   ºÚÏó2, ºÚÅÚ1, ºÚÅÚ2; 
-	  
-	 int startX, startY; 
-	 int startI, startJ; 
-	 public boolean ºì·½×ßÆå = true, ºÚ·½×ßÆå = false; 
-	 Rule rule = null; 
-	 public MakeChessManual record = null; 
-	  
-	 public ChessBoard(int w, int h, int r, int c) { 
-	  setLayout(null); 
-	  addMouseListener(this); 
-	  addMouseMotionListener(this); 
-	  Color bc = getBackground(); 
-	  unitWidth = w; 
-	  unitHeight = h; 
-	  xÖá³¤ = r; 
-	  yÖá³¤ = c; 
-	  
-	  point = new ChessPoint[r + 1][c + 1]; 
-	  
-	  for (int i = 1; i <= r; i++) { 
-	   for (int j = 1; j <= c; j++) { 
-	    point[i][j] = new ChessPoint(i * unitWidth, j * unitHeight, 
-	      false); 
-	   } 
-	  } 
-	  
-	  rule = new Rule(this, point); 
-	  record = new MakeChessManual(this, point); 
-	  
-	  img = Toolkit.getDefaultToolkit().getImage("board.jpg"); 
-	  pieceImg = Toolkit.getDefaultToolkit().getImage("piece.gif"); 
-	    
-	  ºì³µ1 = new ChessPiece("Ü‡", Color.red, bc, w - 4, h - 4, this); 
-	  ºì³µ1.setÆå×ÓÀà±ğ(ºì·½ÑÕÉ«); 
-	  ºì³µ2 = new ChessPiece("Ü‡", Color.red, bc, w - 4, h - 4, this); 
-	  ºì³µ2.setÆå×ÓÀà±ğ(ºì·½ÑÕÉ«); 
-	  ºìÂí1 = new ChessPiece("ñR", Color.red, bc, w - 4, h - 4, this); 
-	  ºìÂí1.setÆå×ÓÀà±ğ(ºì·½ÑÕÉ«); 
-	  ºìÂí2 = new ChessPiece("ñR", Color.red, bc, w - 4, h - 4, this); 
-	  ºìÂí2.setÆå×ÓÀà±ğ(ºì·½ÑÕÉ«); 
-	  ºìÅÚ1 = new ChessPiece("ÅÚ", Color.red, bc, w - 4, h - 4, this); 
-	  ºìÅÚ1.setÆå×ÓÀà±ğ(ºì·½ÑÕÉ«); 
-	  ºìÅÚ2 = new ChessPiece("ÅÚ", Color.red, bc, w - 4, h - 4, this); 
-	  ºìÅÚ2.setÆå×ÓÀà±ğ(ºì·½ÑÕÉ«); 
-	  ºìÏà1 = new ChessPiece("Ïà", Color.red, bc, w - 4, h - 4, this); 
-	  ºìÏà1.setÆå×ÓÀà±ğ(ºì·½ÑÕÉ«); 
-	  ºìÏà2 = new ChessPiece("Ïà", Color.red, bc, w - 4, h - 4, this); 
-	  ºìÏà2.setÆå×ÓÀà±ğ(ºì·½ÑÕÉ«); 
-	  ºìÊ¿1 = new ChessPiece("ÊË", Color.red, bc, w - 4, h - 4, this); 
-	  ºìÊ¿1.setÆå×ÓÀà±ğ(ºì·½ÑÕÉ«); 
-	  ºìÊ¿2 = new ChessPiece("ÊË", Color.red, bc, w - 4, h - 4, this); 
-	  ºìÊ¿2.setÆå×ÓÀà±ğ(ºì·½ÑÕÉ«); 
-	  ºìË§ = new ChessPiece("Ë§", Color.red, bc, w - 4, h - 4, this); 
-	  ºìË§.setÆå×ÓÀà±ğ(ºì·½ÑÕÉ«); 
-	  ºì±ø1 = new ChessPiece("±ø", Color.red, bc, w - 4, h - 4, this); 
-	  ºì±ø1.setÆå×ÓÀà±ğ(ºì·½ÑÕÉ«); 
-	  ºì±ø2 = new ChessPiece("±ø", Color.red, bc, w - 4, h - 4, this); 
-	  ºì±ø2.setÆå×ÓÀà±ğ(ºì·½ÑÕÉ«); 
-	  ºì±ø3 = new ChessPiece("±ø", Color.red, bc, w - 4, h - 4, this); 
-	  ºì±ø3.setÆå×ÓÀà±ğ(ºì·½ÑÕÉ«); 
-	  ºì±ø4 = new ChessPiece("±ø", Color.red, bc, w - 4, h - 4, this); 
-	  ºì±ø4.setÆå×ÓÀà±ğ(ºì·½ÑÕÉ«); 
-	  ºì±ø5 = new ChessPiece("±ø", Color.red, bc, w - 4, h - 4, this); 
-	  ºì±ø5.setÆå×ÓÀà±ğ(ºì·½ÑÕÉ«); 
-	  
-	  ºÚ½« = new ChessPiece("½«", Color.black, bc, w - 4, h - 4, this); 
-	  ºÚ½«.setÆå×ÓÀà±ğ(ºÚ·½ÑÕÉ«); 
-	  ºÚÊ¿1 = new ChessPiece("Ê¿", Color.black, bc, w - 4, h - 4, this); 
-	  ºÚÊ¿1.setÆå×ÓÀà±ğ(ºÚ·½ÑÕÉ«); 
-	  ºÚÊ¿2 = new ChessPiece("Ê¿", Color.black, bc, w - 4, h - 4, this); 
-	  ºÚÊ¿2.setÆå×ÓÀà±ğ(ºÚ·½ÑÕÉ«); 
-	  ºÚ³µ1 = new ChessPiece("³µ", Color.black, bc, w - 4, h - 4, this); 
-	  ºÚ³µ1.setÆå×ÓÀà±ğ(ºÚ·½ÑÕÉ«); 
-	  ºÚ³µ2 = new ChessPiece("³µ", Color.black, bc, w - 4, h - 4, this); 
-	  ºÚ³µ2.setÆå×ÓÀà±ğ(ºÚ·½ÑÕÉ«); 
-	  ºÚÅÚ1 = new ChessPiece("ÅÚ", Color.black, bc, w - 4, h - 4, this); 
-	  ºÚÅÚ1.setÆå×ÓÀà±ğ(ºÚ·½ÑÕÉ«); 
-	  ºÚÅÚ2 = new ChessPiece("ÅÚ", Color.black, bc, w - 4, h - 4, this); 
-	  ºÚÅÚ2.setÆå×ÓÀà±ğ(ºÚ·½ÑÕÉ«); 
-	  ºÚÏó1 = new ChessPiece("Ïó", Color.black, bc, w - 4, h - 4, this); 
-	  ºÚÏó1.setÆå×ÓÀà±ğ(ºÚ·½ÑÕÉ«); 
-	  ºÚÏó2 = new ChessPiece("Ïó", Color.black, bc, w - 4, h - 4, this); 
-	  ºÚÏó2.setÆå×ÓÀà±ğ(ºÚ·½ÑÕÉ«); 
-	  ºÚÂí1 = new ChessPiece("Âí", Color.black, bc, w - 4, h - 4, this); 
-	  ºÚÂí1.setÆå×ÓÀà±ğ(ºÚ·½ÑÕÉ«); 
-	  ºÚÂí2 = new ChessPiece("Âí", Color.black, bc, w - 4, h - 4, this); 
-	  ºÚÂí2.setÆå×ÓÀà±ğ(ºÚ·½ÑÕÉ«); 
-	  ºÚ×ä1 = new ChessPiece("×ä", Color.black, bc, w - 4, h - 4, this); 
-	  ºÚ×ä1.setÆå×ÓÀà±ğ(ºÚ·½ÑÕÉ«); 
-	  ºÚ×ä2 = new ChessPiece("×ä", Color.black, bc, w - 4, h - 4, this); 
-	  ºÚ×ä2.setÆå×ÓÀà±ğ(ºÚ·½ÑÕÉ«); 
-	  ºÚ×ä3 = new ChessPiece("×ä", Color.black, bc, w - 4, h - 4, this); 
-	  ºÚ×ä3.setÆå×ÓÀà±ğ(ºÚ·½ÑÕÉ«); 
-	  ºÚ×ä4 = new ChessPiece("×ä", Color.black, bc, w - 4, h - 4, this); 
-	  ºÚ×ä4.setÆå×ÓÀà±ğ(ºÚ·½ÑÕÉ«); 
-	  ºÚ×ä5 = new ChessPiece("×ä", Color.black, bc, w - 4, h - 4, this); 
-	  ºÚ×ä5.setÆå×ÓÀà±ğ(ºÚ·½ÑÕÉ«); 
-	  point[1][10].setPiece(ºì³µ1, this); 
-	  point[2][10].setPiece(ºìÂí1, this); 
-	  point[3][10].setPiece(ºìÏà1, this); 
-	  point[4][10].setPiece(ºìÊ¿1, this); 
-	  point[5][10].setPiece(ºìË§, this); 
-	  point[6][10].setPiece(ºìÊ¿2, this); 
-	  point[7][10].setPiece(ºìÏà2, this); 
-	  point[8][10].setPiece(ºìÂí2, this); 
-	  point[9][10].setPiece(ºì³µ2, this); 
-	  point[2][8].setPiece(ºìÅÚ1, this); 
-	  point[8][8].setPiece(ºìÅÚ2, this); 
-	  point[1][7].setPiece(ºì±ø1, this); 
-	  point[3][7].setPiece(ºì±ø2, this); 
-	  point[5][7].setPiece(ºì±ø3, this); 
-	  point[7][7].setPiece(ºì±ø4, this); 
-	  point[9][7].setPiece(ºì±ø5, this); 
-	  
-	  point[1][1].setPiece(ºÚ³µ1, this); 
-	  point[2][1].setPiece(ºÚÂí1, this); 
-	  point[3][1].setPiece(ºÚÏó1, this); 
-	  point[4][1].setPiece(ºÚÊ¿1, this); 
-	  point[5][1].setPiece(ºÚ½«, this); 
-	  point[6][1].setPiece(ºÚÊ¿2, this); 
-	  point[7][1].setPiece(ºÚÏó2, this); 
-	  point[8][1].setPiece(ºÚÂí2, this); 
-	  point[9][1].setPiece(ºÚ³µ2, this); 
-	  point[2][3].setPiece(ºÚÅÚ1, this); 
-	  point[8][3].setPiece(ºÚÅÚ2, this); 
-	  point[1][4].setPiece(ºÚ×ä1, this); 
-	  point[3][4].setPiece(ºÚ×ä2, this); 
-	  point[5][4].setPiece(ºÚ×ä3, this); 
-	  point[7][4].setPiece(ºÚ×ä4, this); 
-	  point[9][4].setPiece(ºÚ×ä5, this); 
-	  
-	 } 
-	  
-	 public void paintComponent(Graphics g) { 
-	  super.paintComponent(g); 
-	  
-	  int imgWidth = img.getWidth(this); 
-	  int imgHeight = img.getHeight(this);// »ñµÃÍ¼Æ¬µÄ¿í¶ÈÓë¸ß¶È 
-	  int FWidth = getWidth(); 
-	  int FHeight = getHeight();// »ñµÃ´°¿ÚµÄ¿í¶ÈÓë¸ß¶È 
-	  int x = (FWidth - imgWidth) / 2; 
-	  int y = (FHeight - imgHeight) / 2; 
-	  g.drawImage(img, x, y, null); 
-	  
-	  for (int j = 1; j <= yÖá³¤; j++) { 
-	   g.drawLine(point[1][j].x, point[1][j].y, point[xÖá³¤][j].x, 
-	     point[xÖá³¤][j].y); 
-	  } 
-	  for (int i = 1; i <= xÖá³¤; i++) { 
-	   if (i != 1 && i != xÖá³¤) { 
-	    g.drawLine(point[i][1].x, point[i][1].y, point[i][yÖá³¤ - 5].x, 
-	      point[i][yÖá³¤ - 5].y); 
-	    g.drawLine(point[i][yÖá³¤ - 4].x, point[i][yÖá³¤ - 4].y, 
-	      point[i][yÖá³¤].x, point[i][yÖá³¤].y); 
-	   } else { 
-	    g.drawLine(point[i][1].x, point[i][1].y, point[i][yÖá³¤].x, 
-	      point[i][yÖá³¤].y); 
-	   } 
-	  } 
-	  
-	  g.drawLine(point[4][1].x, point[4][1].y, point[6][3].x, point[6][3].y); 
-	  g.drawLine(point[6][1].x, point[6][1].y, point[4][3].x, point[4][3].y); 
-	  g.drawLine(point[4][8].x, point[4][8].y, point[6][yÖá³¤].x, 
-	    point[6][yÖá³¤].y); 
-	  g.drawLine(point[4][yÖá³¤].x, point[4][yÖá³¤].y, point[6][8].x, 
-	    point[6][8].y); 
-	  
-	  for (int i = 1; i <= xÖá³¤; i++) { 
-	   g.drawString("" + i, i * unitWidth, unitHeight / 2); 
-	  } 
-	  int j = 1; 
-	  for (char c = 'A'; c <= 'J'; c++) { 
-	   g.drawString("" + c, unitWidth / 4, j * unitHeight); 
-	   j++; 
-	  } 
-	  
-	 } 
-	  
-	 /**Êó±ê°´ÏÂÊÂ¼ş*/
-	 public void mousePressed(MouseEvent e) { 
-	  ChessPiece piece = null; 
-	  Rectangle rect = null; 
-	  if (e.getSource() == this) 
-	   move = false; 
-	  if (move == false) 
-	   if (e.getSource() instanceof ChessPiece) { 
-	    piece = (ChessPiece) e.getSource(); 
-	    startX = piece.getBounds().x; 
-	    startY = piece.getBounds().y; 
-	  
-	    rect = piece.getBounds(); 
-	    for (int i = 1; i <= xÖá³¤; i++) { 
-	     for (int j = 1; j <= yÖá³¤; j++) { 
-	      int x = point[i][j].getX(); 
-	      int y = point[i][j].getY(); 
-	      if (rect.contains(x, y)) { 
-	       startI = i; 
-	       startJ = j; 
-	       break; 
-	      } 
-	  
-	     } 
-	    } 
-	   } 
-	 } 
-	  
-	 public void mouseMoved(MouseEvent e) { 
-	 } 
-	  
-	 /**Êó±êÍÏ¶¯ÊÂ¼ş*/
-	 public void mouseDragged(MouseEvent e) { 
-	  
-	  ChessPiece piece = null; 
-	  if (e.getSource() instanceof ChessPiece) { 
-	   piece = (ChessPiece) e.getSource(); 
-	  
-	   move = true; 
-	  
-	   e = SwingUtilities.convertMouseEvent(piece, e, this); 
-	  } 
-	  
-	  if (e.getSource() == this) { 
-	   if (move && piece != null) { 
-	    x = e.getX(); 
-	    y = e.getY(); 
-	    if (ºì·½×ßÆå && ((piece.Æå×ÓÀà±ğ()).equals(ºì·½ÑÕÉ«))) { 
-	     piece.setLocation(x - piece.getWidth() / 2, 
-	       y - piece.getHeight() / 2); 
-	    } 
-	    if (ºÚ·½×ßÆå && (piece.Æå×ÓÀà±ğ().equals(ºÚ·½ÑÕÉ«))) { 
-	     piece.setLocation(x - piece.getWidth() / 2, 
-	       y - piece.getHeight() / 2); 
-	    } 
-	   } 
-	  } 
-	 } 
-	  
-	 /**ËÉ¿ªÊó±êÊÂ¼ş*/
-	 public void mouseReleased(MouseEvent e) { 
-	  ChessPiece piece = null; 
-	  move = false; 
-	  Rectangle rect = null; 
-	  if (e.getSource() instanceof ChessPiece) { 
-	   piece = (ChessPiece) e.getSource(); 
-	   rect = piece.getBounds(); 
-	  
-	   e = SwingUtilities.convertMouseEvent(piece, e, this); 
-	  } 
-	  if (e.getSource() == this) { 
-	   boolean containChessPoint = false; 
-	   int x = 0, y = 0; 
-	   int m = 0, n = 0; 
-	   if (piece != null) { 
-	    for (int i = 1; i <= xÖá³¤; i++) { 
-	     for (int j = 1; j <= yÖá³¤; j++) { 
-	      x = point[i][j].getX(); 
-	      y = point[i][j].getY(); 
-	      if (rect.contains(x, y)) { 
-	  
-	       containChessPoint = true; 
-	       m = i; 
-	       n = j; 
-	       break; 
-	      } 
-	  
-	     } 
-	    } 
-	   } 
-	   if (piece != null && containChessPoint) { 
-	    Color pieceColor = piece.»ñÈ¡Æå×ÓÑÕÉ«(); 
-	    if (point[m][n].isPiece()) { 
-	     Color c = (point[m][n].getPiece()).»ñÈ¡Æå×ÓÑÕÉ«(); 
-	     if (pieceColor.getRGB() == c.getRGB()) { 
-	      piece.setLocation(startX, startY); 
-	  
-	      (point[startI][startJ]).setÓĞÆå×Ó(true); 
-	     } else { 
-	      boolean ok = rule.movePieceRule(piece, startI, startJ, 
-	        m, n); 
-	      if (ok) { 
-	       ChessPiece pieceRemoved = point[m][n].getPiece(); 
-	       point[m][n].reMovePiece(pieceRemoved, this); 
-	       point[m][n].setPiece(piece, this); 
-	       (point[startI][startJ]).setÓĞÆå×Ó(false); 
-	       record.¼ÇÂ¼ÆåÆ×(piece, startI, startJ, m, n); 
-	       record.¼ÇÂ¼³ÔµôµÄÆå×Ó(pieceRemoved); 
-	       rule.isWine(pieceRemoved); 
-	       if (piece.Æå×ÓÀà±ğ().equals(ºì·½ÑÕÉ«)) { 
-	        ºì·½×ßÆå = false; 
-	        ºÚ·½×ßÆå = true; 
-	       } 
-	       if (piece.Æå×ÓÀà±ğ().equals(ºÚ·½ÑÕÉ«)) { 
-	        ºÚ·½×ßÆå = false; 
-	        ºì·½×ßÆå = true; 
-	       } 
-	       validate(); 
-	       repaint(); 
-	      } else { 
-	       piece.setLocation(startX, startY); 
-	       (point[startI][startJ]).setÓĞÆå×Ó(true); 
-	      } 
-	     } 
-	  
-	    } else { 
-	  
-	     boolean ok = rule 
-	       .movePieceRule(piece, startI, startJ, m, n); 
-	     if (ok) { 
-	      point[m][n].setPiece(piece, this); 
-	      (point[startI][startJ]).setÓĞÆå×Ó(false); 
-	      record.¼ÇÂ¼ÆåÆ×(piece, startI, startJ, m, n); 
-	      record.¼ÇÂ¼³ÔµôµÄÆå×Ó("Ã»³ÔÆå×Ó"); 
-	  
-	      if (piece.Æå×ÓÀà±ğ().equals(ºì·½ÑÕÉ«)) { 
-	       ºì·½×ßÆå = false; 
-	       ºÚ·½×ßÆå = true; 
-	      } 
-	      if (piece.Æå×ÓÀà±ğ().equals(ºÚ·½ÑÕÉ«)) { 
-	       ºÚ·½×ßÆå = false; 
-	       ºì·½×ßÆå = true; 
-	      } 
-	     } else { 
-	      piece.setLocation(startX, startY); 
-	      (point[startI][startJ]).setÓĞÆå×Ó(true); 
-	     } 
-	    } 
-	   } 
-	  
-	   if (piece != null && !containChessPoint) { 
-	    piece.setLocation(startX, startY); 
-	    (point[startI][startJ]).setÓĞÆå×Ó(true); 
-	   } 
-	  } 
-	 } 
-	  
-	 public void mouseEntered(MouseEvent e) { 
-	 } 
-	  
-	 public void mouseExited(MouseEvent e) { 
-	 } 
-	  
-	 public void mouseClicked(MouseEvent e) { 
-	 } 
-	} 
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
+/**
+ * æ£‹ç›˜ç±»
+ * 
+ * @author cnlht
+ */
+public class ChessBoard extends JPanel implements MouseListener,
+		MouseMotionListener {
+	public ChessPoint point[][];
+	public int unitWidth, unitHeight;
+	private int xè½´é•¿, yè½´é•¿;
+	private int x, y;
+	private Image img;
+	protected Image pieceImg;
+	private boolean move = false;
+	public String çº¢æ–¹é¢œè‰² = "çº¢æ–¹", é»‘æ–¹é¢œè‰² = "é»‘æ–¹";
+	ChessPiece çº¢è½¦1, çº¢è½¦2, çº¢é©¬1, çº¢é©¬2, çº¢ç›¸1, çº¢ç›¸2, çº¢å¸…, çº¢å£«1, çº¢å£«2, çº¢å…µ1, çº¢å…µ2, çº¢å…µ3, çº¢å…µ4,
+			çº¢å…µ5, çº¢ç‚®1, çº¢ç‚®2;
+	ChessPiece é»‘è½¦1, é»‘è½¦2, é»‘é©¬1, é»‘é©¬2, é»‘å°†, é»‘å£«1, é»‘å£«2, é»‘å’1, é»‘å’2, é»‘å’3, é»‘å’4, é»‘å’5, é»‘è±¡1,
+			é»‘è±¡2, é»‘ç‚®1, é»‘ç‚®2;
+
+	int startX, startY;
+	int startI, startJ;
+	public boolean çº¢æ–¹èµ°æ£‹ = true, é»‘æ–¹èµ°æ£‹ = false;
+	Rule rule = null;
+	public MakeChessManual record = null;
+
+	public ChessBoard(int w, int h, int r, int c) {
+		setLayout(null);
+		addMouseListener(this);
+		addMouseMotionListener(this);
+		Color bc = getBackground();
+		unitWidth = w;
+		unitHeight = h;
+		xè½´é•¿ = r;
+		yè½´é•¿ = c;
+
+		point = new ChessPoint[r + 1][c + 1];
+
+		for (int i = 1; i <= r; i++) {
+			for (int j = 1; j <= c; j++) {
+				point[i][j] = new ChessPoint(i * unitWidth, j * unitHeight,
+						false);
+			}
+		}
+
+		rule = new Rule(this, point);
+		record = new MakeChessManual(this, point);
+
+		img = Toolkit.getDefaultToolkit().getImage("board.jpg");
+		pieceImg = Toolkit.getDefaultToolkit().getImage("piece.gif");
+
+		çº¢è½¦1 = new ChessPiece("è»Š", Color.red, bc, w - 4, h - 4, this);
+		çº¢è½¦1.setæ£‹å­ç±»åˆ«(çº¢æ–¹é¢œè‰²);
+		çº¢è½¦2 = new ChessPiece("è»Š", Color.red, bc, w - 4, h - 4, this);
+		çº¢è½¦2.setæ£‹å­ç±»åˆ«(çº¢æ–¹é¢œè‰²);
+		çº¢é©¬1 = new ChessPiece("é¦¬", Color.red, bc, w - 4, h - 4, this);
+		çº¢é©¬1.setæ£‹å­ç±»åˆ«(çº¢æ–¹é¢œè‰²);
+		çº¢é©¬2 = new ChessPiece("é¦¬", Color.red, bc, w - 4, h - 4, this);
+		çº¢é©¬2.setæ£‹å­ç±»åˆ«(çº¢æ–¹é¢œè‰²);
+		çº¢ç‚®1 = new ChessPiece("ç‚®", Color.red, bc, w - 4, h - 4, this);
+		çº¢ç‚®1.setæ£‹å­ç±»åˆ«(çº¢æ–¹é¢œè‰²);
+		çº¢ç‚®2 = new ChessPiece("ç‚®", Color.red, bc, w - 4, h - 4, this);
+		çº¢ç‚®2.setæ£‹å­ç±»åˆ«(çº¢æ–¹é¢œè‰²);
+		çº¢ç›¸1 = new ChessPiece("ç›¸", Color.red, bc, w - 4, h - 4, this);
+		çº¢ç›¸1.setæ£‹å­ç±»åˆ«(çº¢æ–¹é¢œè‰²);
+		çº¢ç›¸2 = new ChessPiece("ç›¸", Color.red, bc, w - 4, h - 4, this);
+		çº¢ç›¸2.setæ£‹å­ç±»åˆ«(çº¢æ–¹é¢œè‰²);
+		çº¢å£«1 = new ChessPiece("ä»•", Color.red, bc, w - 4, h - 4, this);
+		çº¢å£«1.setæ£‹å­ç±»åˆ«(çº¢æ–¹é¢œè‰²);
+		çº¢å£«2 = new ChessPiece("ä»•", Color.red, bc, w - 4, h - 4, this);
+		çº¢å£«2.setæ£‹å­ç±»åˆ«(çº¢æ–¹é¢œè‰²);
+		çº¢å¸… = new ChessPiece("å¸…", Color.red, bc, w - 4, h - 4, this);
+		çº¢å¸….setæ£‹å­ç±»åˆ«(çº¢æ–¹é¢œè‰²);
+		çº¢å…µ1 = new ChessPiece("å…µ", Color.red, bc, w - 4, h - 4, this);
+		çº¢å…µ1.setæ£‹å­ç±»åˆ«(çº¢æ–¹é¢œè‰²);
+		çº¢å…µ2 = new ChessPiece("å…µ", Color.red, bc, w - 4, h - 4, this);
+		çº¢å…µ2.setæ£‹å­ç±»åˆ«(çº¢æ–¹é¢œè‰²);
+		çº¢å…µ3 = new ChessPiece("å…µ", Color.red, bc, w - 4, h - 4, this);
+		çº¢å…µ3.setæ£‹å­ç±»åˆ«(çº¢æ–¹é¢œè‰²);
+		çº¢å…µ4 = new ChessPiece("å…µ", Color.red, bc, w - 4, h - 4, this);
+		çº¢å…µ4.setæ£‹å­ç±»åˆ«(çº¢æ–¹é¢œè‰²);
+		çº¢å…µ5 = new ChessPiece("å…µ", Color.red, bc, w - 4, h - 4, this);
+		çº¢å…µ5.setæ£‹å­ç±»åˆ«(çº¢æ–¹é¢œè‰²);
+
+		é»‘å°† = new ChessPiece("å°†", Color.black, bc, w - 4, h - 4, this);
+		é»‘å°†.setæ£‹å­ç±»åˆ«(é»‘æ–¹é¢œè‰²);
+		é»‘å£«1 = new ChessPiece("å£«", Color.black, bc, w - 4, h - 4, this);
+		é»‘å£«1.setæ£‹å­ç±»åˆ«(é»‘æ–¹é¢œè‰²);
+		é»‘å£«2 = new ChessPiece("å£«", Color.black, bc, w - 4, h - 4, this);
+		é»‘å£«2.setæ£‹å­ç±»åˆ«(é»‘æ–¹é¢œè‰²);
+		é»‘è½¦1 = new ChessPiece("è½¦", Color.black, bc, w - 4, h - 4, this);
+		é»‘è½¦1.setæ£‹å­ç±»åˆ«(é»‘æ–¹é¢œè‰²);
+		é»‘è½¦2 = new ChessPiece("è½¦", Color.black, bc, w - 4, h - 4, this);
+		é»‘è½¦2.setæ£‹å­ç±»åˆ«(é»‘æ–¹é¢œè‰²);
+		é»‘ç‚®1 = new ChessPiece("ç‚®", Color.black, bc, w - 4, h - 4, this);
+		é»‘ç‚®1.setæ£‹å­ç±»åˆ«(é»‘æ–¹é¢œè‰²);
+		é»‘ç‚®2 = new ChessPiece("ç‚®", Color.black, bc, w - 4, h - 4, this);
+		é»‘ç‚®2.setæ£‹å­ç±»åˆ«(é»‘æ–¹é¢œè‰²);
+		é»‘è±¡1 = new ChessPiece("è±¡", Color.black, bc, w - 4, h - 4, this);
+		é»‘è±¡1.setæ£‹å­ç±»åˆ«(é»‘æ–¹é¢œè‰²);
+		é»‘è±¡2 = new ChessPiece("è±¡", Color.black, bc, w - 4, h - 4, this);
+		é»‘è±¡2.setæ£‹å­ç±»åˆ«(é»‘æ–¹é¢œè‰²);
+		é»‘é©¬1 = new ChessPiece("é©¬", Color.black, bc, w - 4, h - 4, this);
+		é»‘é©¬1.setæ£‹å­ç±»åˆ«(é»‘æ–¹é¢œè‰²);
+		é»‘é©¬2 = new ChessPiece("é©¬", Color.black, bc, w - 4, h - 4, this);
+		é»‘é©¬2.setæ£‹å­ç±»åˆ«(é»‘æ–¹é¢œè‰²);
+		é»‘å’1 = new ChessPiece("å’", Color.black, bc, w - 4, h - 4, this);
+		é»‘å’1.setæ£‹å­ç±»åˆ«(é»‘æ–¹é¢œè‰²);
+		é»‘å’2 = new ChessPiece("å’", Color.black, bc, w - 4, h - 4, this);
+		é»‘å’2.setæ£‹å­ç±»åˆ«(é»‘æ–¹é¢œè‰²);
+		é»‘å’3 = new ChessPiece("å’", Color.black, bc, w - 4, h - 4, this);
+		é»‘å’3.setæ£‹å­ç±»åˆ«(é»‘æ–¹é¢œè‰²);
+		é»‘å’4 = new ChessPiece("å’", Color.black, bc, w - 4, h - 4, this);
+		é»‘å’4.setæ£‹å­ç±»åˆ«(é»‘æ–¹é¢œè‰²);
+		é»‘å’5 = new ChessPiece("å’", Color.black, bc, w - 4, h - 4, this);
+		é»‘å’5.setæ£‹å­ç±»åˆ«(é»‘æ–¹é¢œè‰²);
+		point[1][10].setPiece(çº¢è½¦1, this);
+		point[2][10].setPiece(çº¢é©¬1, this);
+		point[3][10].setPiece(çº¢ç›¸1, this);
+		point[4][10].setPiece(çº¢å£«1, this);
+		point[5][10].setPiece(çº¢å¸…, this);
+		point[6][10].setPiece(çº¢å£«2, this);
+		point[7][10].setPiece(çº¢ç›¸2, this);
+		point[8][10].setPiece(çº¢é©¬2, this);
+		point[9][10].setPiece(çº¢è½¦2, this);
+		point[2][8].setPiece(çº¢ç‚®1, this);
+		point[8][8].setPiece(çº¢ç‚®2, this);
+		point[1][7].setPiece(çº¢å…µ1, this);
+		point[3][7].setPiece(çº¢å…µ2, this);
+		point[5][7].setPiece(çº¢å…µ3, this);
+		point[7][7].setPiece(çº¢å…µ4, this);
+		point[9][7].setPiece(çº¢å…µ5, this);
+
+		point[1][1].setPiece(é»‘è½¦1, this);
+		point[2][1].setPiece(é»‘é©¬1, this);
+		point[3][1].setPiece(é»‘è±¡1, this);
+		point[4][1].setPiece(é»‘å£«1, this);
+		point[5][1].setPiece(é»‘å°†, this);
+		point[6][1].setPiece(é»‘å£«2, this);
+		point[7][1].setPiece(é»‘è±¡2, this);
+		point[8][1].setPiece(é»‘é©¬2, this);
+		point[9][1].setPiece(é»‘è½¦2, this);
+		point[2][3].setPiece(é»‘ç‚®1, this);
+		point[8][3].setPiece(é»‘ç‚®2, this);
+		point[1][4].setPiece(é»‘å’1, this);
+		point[3][4].setPiece(é»‘å’2, this);
+		point[5][4].setPiece(é»‘å’3, this);
+		point[7][4].setPiece(é»‘å’4, this);
+		point[9][4].setPiece(é»‘å’5, this);
+
+	}
+
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+
+		int imgWidth = img.getWidth(this);
+		int imgHeight = img.getHeight(this);// è·å¾—å›¾ç‰‡çš„å®½åº¦ä¸é«˜åº¦
+		int FWidth = getWidth();
+		int FHeight = getHeight();// è·å¾—çª—å£çš„å®½åº¦ä¸é«˜åº¦
+		int x = (FWidth - imgWidth) / 2;
+		int y = (FHeight - imgHeight) / 2;
+		g.drawImage(img, x, y, null);
+
+		for (int j = 1; j <= yè½´é•¿; j++) {
+			g.drawLine(point[1][j].x, point[1][j].y, point[xè½´é•¿][j].x,
+					point[xè½´é•¿][j].y);
+		}
+		for (int i = 1; i <= xè½´é•¿; i++) {
+			if (i != 1 && i != xè½´é•¿) {
+				g.drawLine(point[i][1].x, point[i][1].y, point[i][yè½´é•¿ - 5].x,
+						point[i][yè½´é•¿ - 5].y);
+				g.drawLine(point[i][yè½´é•¿ - 4].x, point[i][yè½´é•¿ - 4].y,
+						point[i][yè½´é•¿].x, point[i][yè½´é•¿].y);
+			} else {
+				g.drawLine(point[i][1].x, point[i][1].y, point[i][yè½´é•¿].x,
+						point[i][yè½´é•¿].y);
+			}
+		}
+
+		g.drawLine(point[4][1].x, point[4][1].y, point[6][3].x, point[6][3].y);
+		g.drawLine(point[6][1].x, point[6][1].y, point[4][3].x, point[4][3].y);
+		g.drawLine(point[4][8].x, point[4][8].y, point[6][yè½´é•¿].x,
+				point[6][yè½´é•¿].y);
+		g.drawLine(point[4][yè½´é•¿].x, point[4][yè½´é•¿].y, point[6][8].x,
+				point[6][8].y);
+
+		for (int i = 1; i <= xè½´é•¿; i++) {
+			g.drawString("" + i, i * unitWidth, unitHeight / 2);
+		}
+		int j = 1;
+		for (char c = 'A'; c <= 'J'; c++) {
+			g.drawString("" + c, unitWidth / 4, j * unitHeight);
+			j++;
+		}
+
+	}
+
+	/** é¼ æ ‡æŒ‰ä¸‹äº‹ä»¶ */
+	public void mousePressed(MouseEvent e) {
+		ChessPiece piece = null;
+		Rectangle rect = null;
+		if (e.getSource() == this)
+			move = false;
+		if (move == false)
+			if (e.getSource() instanceof ChessPiece) {
+				piece = (ChessPiece) e.getSource();
+				startX = piece.getBounds().x;
+				startY = piece.getBounds().y;
+
+				rect = piece.getBounds();
+				for (int i = 1; i <= xè½´é•¿; i++) {
+					for (int j = 1; j <= yè½´é•¿; j++) {
+						int x = point[i][j].getX();
+						int y = point[i][j].getY();
+						if (rect.contains(x, y)) {
+							startI = i;
+							startJ = j;
+							break;
+						}
+
+					}
+				}
+			}
+	}
+
+	public void mouseMoved(MouseEvent e) {
+	}
+
+	/** é¼ æ ‡æ‹–åŠ¨äº‹ä»¶ */
+	public void mouseDragged(MouseEvent e) {
+
+		ChessPiece piece = null;
+		if (e.getSource() instanceof ChessPiece) {
+			piece = (ChessPiece) e.getSource();
+
+			move = true;
+
+			e = SwingUtilities.convertMouseEvent(piece, e, this);
+		}
+
+		if (e.getSource() == this) {
+			if (move && piece != null) {
+				x = e.getX();
+				y = e.getY();
+				if (çº¢æ–¹èµ°æ£‹ && ((piece.æ£‹å­ç±»åˆ«()).equals(çº¢æ–¹é¢œè‰²))) {
+					piece.setLocation(x - piece.getWidth() / 2,
+							y - piece.getHeight() / 2);
+				}
+				if (é»‘æ–¹èµ°æ£‹ && (piece.æ£‹å­ç±»åˆ«().equals(é»‘æ–¹é¢œè‰²))) {
+					piece.setLocation(x - piece.getWidth() / 2,
+							y - piece.getHeight() / 2);
+				}
+			}
+		}
+	}
+
+	/** æ¾å¼€é¼ æ ‡äº‹ä»¶ */
+	public void mouseReleased(MouseEvent e) {
+		ChessPiece piece = null;
+		move = false;
+		Rectangle rect = null;
+		if (e.getSource() instanceof ChessPiece) {
+			piece = (ChessPiece) e.getSource();
+			rect = piece.getBounds();
+
+			e = SwingUtilities.convertMouseEvent(piece, e, this);
+		}
+		if (e.getSource() == this) {
+			boolean containChessPoint = false;
+			int x = 0, y = 0;
+			int m = 0, n = 0;
+			if (piece != null) {
+				for (int i = 1; i <= xè½´é•¿; i++) {
+					for (int j = 1; j <= yè½´é•¿; j++) {
+						x = point[i][j].getX();
+						y = point[i][j].getY();
+						if (rect.contains(x, y)) {
+
+							containChessPoint = true;
+							m = i;
+							n = j;
+							break;
+						}
+
+					}
+				}
+			}
+			if (piece != null && containChessPoint) {
+				Color pieceColor = piece.è·å–æ£‹å­é¢œè‰²();
+				if (point[m][n].isPiece()) {
+					Color c = (point[m][n].getPiece()).è·å–æ£‹å­é¢œè‰²();
+					if (pieceColor.getRGB() == c.getRGB()) {
+						piece.setLocation(startX, startY);
+
+						(point[startI][startJ]).setæœ‰æ£‹å­(true);
+					} else {
+						boolean ok = rule.movePieceRule(piece, startI, startJ,
+								m, n);
+						if (ok) {
+							ChessPiece pieceRemoved = point[m][n].getPiece();
+							point[m][n].reMovePiece(pieceRemoved, this);
+							point[m][n].setPiece(piece, this);
+							(point[startI][startJ]).setæœ‰æ£‹å­(false);
+							record.è®°å½•æ£‹è°±(piece, startI, startJ, m, n);
+							record.è®°å½•åƒæ‰çš„æ£‹å­(pieceRemoved);
+							rule.isWine(pieceRemoved);
+							if (piece.æ£‹å­ç±»åˆ«().equals(çº¢æ–¹é¢œè‰²)) {
+								çº¢æ–¹èµ°æ£‹ = false;
+								é»‘æ–¹èµ°æ£‹ = true;
+							}
+							if (piece.æ£‹å­ç±»åˆ«().equals(é»‘æ–¹é¢œè‰²)) {
+								é»‘æ–¹èµ°æ£‹ = false;
+								çº¢æ–¹èµ°æ£‹ = true;
+							}
+							validate();
+							repaint();
+						} else {
+							piece.setLocation(startX, startY);
+							(point[startI][startJ]).setæœ‰æ£‹å­(true);
+						}
+					}
+
+				} else {
+
+					boolean ok = rule
+							.movePieceRule(piece, startI, startJ, m, n);
+					if (ok) {
+						point[m][n].setPiece(piece, this);
+						(point[startI][startJ]).setæœ‰æ£‹å­(false);
+						record.è®°å½•æ£‹è°±(piece, startI, startJ, m, n);
+						record.è®°å½•åƒæ‰çš„æ£‹å­("æ²¡åƒæ£‹å­");
+
+						if (piece.æ£‹å­ç±»åˆ«().equals(çº¢æ–¹é¢œè‰²)) {
+							çº¢æ–¹èµ°æ£‹ = false;
+							é»‘æ–¹èµ°æ£‹ = true;
+						}
+						if (piece.æ£‹å­ç±»åˆ«().equals(é»‘æ–¹é¢œè‰²)) {
+							é»‘æ–¹èµ°æ£‹ = false;
+							çº¢æ–¹èµ°æ£‹ = true;
+						}
+					} else {
+						piece.setLocation(startX, startY);
+						(point[startI][startJ]).setæœ‰æ£‹å­(true);
+					}
+				}
+			}
+
+			if (piece != null && !containChessPoint) {
+				piece.setLocation(startX, startY);
+				(point[startI][startJ]).setæœ‰æ£‹å­(true);
+			}
+		}
+	}
+
+	public void mouseEntered(MouseEvent e) {
+	}
+
+	public void mouseExited(MouseEvent e) {
+	}
+
+	public void mouseClicked(MouseEvent e) {
+	}
+}

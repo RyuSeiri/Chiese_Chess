@@ -1,319 +1,315 @@
-  
-import javax.swing.*; 
-  
-import java.awt.*; 
-import java.awt.event.*; 
-  
-/** 
- * ×ßÆå¹æÔòÀà 
+import javax.swing.JOptionPane;
+
+/**
+ * èµ°æ£‹è§„åˆ™ç±»
  * 
- * @author cnlht 
+ * @author cnlht
  */
-public class Rule { 
- ChessBoard board = null; 
- ChessPiece piece = null; 
- ChessPoint point[][]; 
- int startI, startJ, endI, endJ; 
-  
- public Rule(ChessBoard board, ChessPoint point[][]) { 
-  this.board = board; 
-  this.point = point; 
- } 
-  
- public void isWine(ChessPiece piece) { 
-  this.piece = piece; 
-  if (piece.getName() == "½«" || piece.getName() == "Ë§") { 
-   if (piece.ÑÕÉ«Àà±ğ == "ºì·½") { 
-    JOptionPane.showMessageDialog(null, "ºÚ·½ Ê¤Àû£¡"); 
-   } else { 
-    JOptionPane.showMessageDialog(null, "ºì·½ Ê¤Àû£¡"); 
-   } 
-  } 
- } 
-  
- public boolean movePieceRule(ChessPiece piece, int startI, int startJ, 
-   int endI, int endJ) { 
-  this.piece = piece; 
-  this.startI = startI; 
-  this.startJ = startJ; 
-  this.endI = endI; 
-  this.endJ = endJ; 
-  int minI = Math.min(startI, endI); 
-  int maxI = Math.max(startI, endI); 
-  int minJ = Math.min(startJ, endJ); 
-  int maxJ = Math.max(startJ, endJ); 
-  boolean ¿É·ñ×ßÆå = false; 
-  if (piece.getName().equals("³µ")) { 
-   if (startI == endI) { 
-    int j = 0; 
-    for (j = minJ + 1; j <= maxJ - 1; j++) { 
-     if (point[startI][j].isPiece()) { 
-      ¿É·ñ×ßÆå = false; 
-      break; 
-     } 
-    } 
-    if (j == maxJ) { 
-     ¿É·ñ×ßÆå = true; 
-    } 
-   } else if (startJ == endJ) { 
-    int i = 0; 
-    for (i = minI + 1; i <= maxI - 1; i++) { 
-     if (point[i][startJ].isPiece()) { 
-      ¿É·ñ×ßÆå = false; 
-      break; 
-     } 
-    } 
-    if (i == maxI) { 
-     ¿É·ñ×ßÆå = true; 
-    } 
-   } else { 
-    ¿É·ñ×ßÆå = false; 
-   } 
-  
-  } else if (piece.getName().equals("Ü‡")) { 
-   if (startI == endI) { 
-    int j = 0; 
-    for (j = minJ + 1; j <= maxJ - 1; j++) { 
-     if (point[startI][j].isPiece()) { 
-      ¿É·ñ×ßÆå = false; 
-      break; 
-     } 
-    } 
-    if (j == maxJ) { 
-     ¿É·ñ×ßÆå = true; 
-    } 
-   } else if (startJ == endJ) { 
-    int i = 0; 
-    for (i = minI + 1; i <= maxI - 1; i++) { 
-     if (point[i][startJ].isPiece()) { 
-      ¿É·ñ×ßÆå = false; 
-      break; 
-     } 
-    } 
-    if (i == maxI) { 
-     ¿É·ñ×ßÆå = true; 
-    } 
-   } else { 
-    ¿É·ñ×ßÆå = false; 
-   } 
-  
-  }else if (piece.getName().equals("Âí")) { 
-   int xAxle = Math.abs(startI - endI); 
-   int yAxle = Math.abs(startJ - endJ); 
-  
-   if (xAxle == 2 && yAxle == 1) { 
-    if (endI > startI) { 
-     if (point[startI + 1][startJ].isPiece()) { 
-      ¿É·ñ×ßÆå = false; 
-     } else { 
-      ¿É·ñ×ßÆå = true; 
-     } 
-    } 
-    if (endI < startI) { 
-     if (point[startI - 1][startJ].isPiece()) { 
-      ¿É·ñ×ßÆå = false; 
-     } else { 
-      ¿É·ñ×ßÆå = true; 
-     } 
-    } 
-  
-   }else if (xAxle == 1 && yAxle == 2) { 
-    if (endJ > startJ) { 
-     if (point[startI][startJ + 1].isPiece()) { 
-      ¿É·ñ×ßÆå = false; 
-     } else { 
-      ¿É·ñ×ßÆå = true; 
-     } 
-    } 
-    if (endJ < startJ) { 
-     if (point[startI][startJ - 1].isPiece()) { 
-      ¿É·ñ×ßÆå = false; 
-     } else { 
-      ¿É·ñ×ßÆå = true; 
-     } 
-    } 
-  
-   } else { 
-    ¿É·ñ×ßÆå = false; 
-   } 
-  } else if (piece.getName().equals("ñR")) { 
-   int xAxle = Math.abs(startI - endI); 
-   int yAxle = Math.abs(startJ - endJ); 
-  
-   if (xAxle == 2 && yAxle == 1) { 
-    if (endI > startI) { 
-     if (point[startI + 1][startJ].isPiece()) { 
-      ¿É·ñ×ßÆå = false; 
-     } else { 
-      ¿É·ñ×ßÆå = true; 
-     } 
-    } 
-    if (endI < startI) { 
-     if (point[startI - 1][startJ].isPiece()) { 
-      ¿É·ñ×ßÆå = false; 
-     } else { 
-      ¿É·ñ×ßÆå = true; 
-     } 
-    } 
-  
-   }else if (xAxle == 1 && yAxle == 2) { 
-    if (endJ > startJ) { 
-     if (point[startI][startJ + 1].isPiece()) { 
-      ¿É·ñ×ßÆå = false; 
-     } else { 
-      ¿É·ñ×ßÆå = true; 
-     } 
-    } 
-    if (endJ < startJ) { 
-     if (point[startI][startJ - 1].isPiece()) { 
-      ¿É·ñ×ßÆå = false; 
-     } else { 
-      ¿É·ñ×ßÆå = true; 
-     } 
-    } 
-  
-   } else { 
-    ¿É·ñ×ßÆå = false; 
-   } 
-  } else if (piece.getName().equals("Ïó")) { 
-   int centerI = (startI + endI) / 2; 
-   int centerJ = (startJ + endJ) / 2; 
-   int xAxle = Math.abs(startI - endI); 
-   int yAxle = Math.abs(startJ - endJ); 
-   if (xAxle == 2 && yAxle == 2 && endJ <= 5) { 
-    if (point[centerI][centerJ].isPiece()) { 
-     ¿É·ñ×ßÆå = false; 
-    } else { 
-     ¿É·ñ×ßÆå = true; 
-    } 
-   } else { 
-    ¿É·ñ×ßÆå = false; 
-   } 
-  } else if (piece.getName().equals("Ïà")) { 
-   int centerI = (startI + endI) / 2; 
-   int centerJ = (startJ + endJ) / 2; 
-   int xAxle = Math.abs(startI - endI); 
-   int yAxle = Math.abs(startJ - endJ); 
-   if (xAxle == 2 && yAxle == 2 && endJ >= 6) { 
-    if (point[centerI][centerJ].isPiece()) { 
-     ¿É·ñ×ßÆå = false; 
-    } else { 
-     ¿É·ñ×ßÆå = true; 
-    } 
-   } else { 
-    ¿É·ñ×ßÆå = false; 
-   } 
-  } else if (piece.getName().equals("ÅÚ")) { 
-   int number = 0; 
-   if (startI == endI) { 
-    int j = 0; 
-    for (j = minJ + 1; j <= maxJ - 1; j++) { 
-     if (point[startI][j].isPiece()) { 
-      number++; 
-     } 
-    } 
-    if (number > 1) { 
-     ¿É·ñ×ßÆå = false; 
-    } else if (number == 1) { 
-     if (point[endI][endJ].isPiece()) { 
-      ¿É·ñ×ßÆå = true; 
-     } 
-    } else if (number == 0 && !point[endI][endJ].isPiece()) { 
-     ¿É·ñ×ßÆå = true; 
-    } 
-   } else if (startJ == endJ) { 
-    int i = 0; 
-    for (i = minI + 1; i <= maxI - 1; i++) { 
-     if (point[i][startJ].isPiece()) { 
-      number++; 
-     } 
-    } 
-    if (number > 1) { 
-     ¿É·ñ×ßÆå = false; 
-    } else if (number == 1) { 
-     if (point[endI][endJ].isPiece()) { 
-      ¿É·ñ×ßÆå = true; 
-     } 
-    } else if (number == 0 && !point[endI][endJ].isPiece()) { 
-     ¿É·ñ×ßÆå = true; 
-    } 
-   } else { 
-    ¿É·ñ×ßÆå = false; 
-   } 
-  } else if (piece.getName().equals("±ø")) { 
-   int xAxle = Math.abs(startI - endI); 
-   int yAxle = Math.abs(startJ - endJ); 
-  
-   if (endJ >= 6) { 
-    if (startJ - endJ == 1 && xAxle == 0) { 
-     ¿É·ñ×ßÆå = true; 
-    } 
-  
-    else { 
-     ¿É·ñ×ßÆå = false; 
-    } 
-   } else if (endJ <= 5) { 
-    if ((startJ - endJ == 1) && (xAxle == 0)) { 
-     ¿É·ñ×ßÆå = true; 
-    } else if ((endJ - startJ == 0) && (xAxle == 1)) { 
-     ¿É·ñ×ßÆå = true; 
-    } else { 
-     ¿É·ñ×ßÆå = false; 
-    } 
-   } 
-  } else if (piece.getName().equals("×ä")) { 
-   int xAxle = Math.abs(startI - endI); 
-   int yAxle = Math.abs(startJ - endJ); 
-  
-   if (endJ <= 5) { 
-    if (endJ - startJ == 1 && xAxle == 0) { 
-     ¿É·ñ×ßÆå = true; 
-    } else { 
-     ¿É·ñ×ßÆå = false; 
-    } 
-   } else if (endJ >= 6) { 
-    if ((endJ - startJ == 1) && (xAxle == 0)) { 
-     ¿É·ñ×ßÆå = true; 
-    } else if ((endJ - startJ == 0) && (xAxle == 1)) { 
-     ¿É·ñ×ßÆå = true; 
-    } else { 
-     ¿É·ñ×ßÆå = false; 
-    } 
-   } 
-  } 
-  
-  else if (piece.getName().equals("Ê¿")) { 
-   int xAxle = Math.abs(startI - endI); 
-   int yAxle = Math.abs(startJ - endJ); 
-   if (endI <= 6 && endI >= 4 && xAxle == 1 && yAxle == 1) { 
-    ¿É·ñ×ßÆå = true; 
-   } else { 
-    ¿É·ñ×ßÆå = false; 
-   } 
-  } else if (piece.getName().equals("ÊË")) { 
-   int xAxle = Math.abs(startI - endI); 
-   int yAxle = Math.abs(startJ - endJ); 
-   if (endI <= 6 && endI >= 4 && xAxle == 1 && yAxle == 1) { 
-    ¿É·ñ×ßÆå = true; 
-   } else { 
-    ¿É·ñ×ßÆå = false; 
-   } 
-  } else if ((piece.getName().equals("Ë§")) 
-    || (piece.getName().equals("½«"))) { 
-   int xAxle = Math.abs(startI - endI); 
-   int yAxle = Math.abs(startJ - endJ); 
-   if (endI <= 6 && endI >= 4) { 
-    if ((xAxle == 1 && yAxle == 0) || (xAxle == 0 && yAxle == 1)) { 
-     ¿É·ñ×ßÆå = true; 
-    } else { 
-     ¿É·ñ×ßÆå = false; 
-    } 
-   } else { 
-    ¿É·ñ×ßÆå = false; 
-   } 
-  } 
-  
-  return ¿É·ñ×ßÆå; 
-  
- } 
-} 
+public class Rule {
+  ChessBoard board = null;
+  ChessPiece piece = null;
+  ChessPoint point[][];
+  int startI, startJ, endI, endJ;
+
+  public Rule(ChessBoard board, ChessPoint point[][]) {
+    this.board = board;
+    this.point = point;
+  }
+
+  public void isWine(ChessPiece piece) {
+    this.piece = piece;
+    if (piece.getName() == "å°†" || piece.getName() == "å¸…") {
+      if (piece.é¢œè‰²ç±»åˆ« == "çº¢æ–¹") {
+        JOptionPane.showMessageDialog(null, "é»‘æ–¹ èƒœåˆ©ï¼");
+      } else {
+        JOptionPane.showMessageDialog(null, "çº¢æ–¹ èƒœåˆ©ï¼");
+      }
+    }
+  }
+
+  public boolean movePieceRule(ChessPiece piece, int startI, int startJ,
+      int endI, int endJ) {
+    this.piece = piece;
+    this.startI = startI;
+    this.startJ = startJ;
+    this.endI = endI;
+    this.endJ = endJ;
+    int minI = Math.min(startI, endI);
+    int maxI = Math.max(startI, endI);
+    int minJ = Math.min(startJ, endJ);
+    int maxJ = Math.max(startJ, endJ);
+    boolean å¯å¦èµ°æ£‹ = false;
+    if (piece.getName().equals("è½¦")) {
+      if (startI == endI) {
+        int j = 0;
+        for (j = minJ + 1; j <= maxJ - 1; j++) {
+          if (point[startI][j].isPiece()) {
+            å¯å¦èµ°æ£‹ = false;
+            break;
+          }
+        }
+        if (j == maxJ) {
+          å¯å¦èµ°æ£‹ = true;
+        }
+      } else if (startJ == endJ) {
+        int i = 0;
+        for (i = minI + 1; i <= maxI - 1; i++) {
+          if (point[i][startJ].isPiece()) {
+            å¯å¦èµ°æ£‹ = false;
+            break;
+          }
+        }
+        if (i == maxI) {
+          å¯å¦èµ°æ£‹ = true;
+        }
+      } else {
+        å¯å¦èµ°æ£‹ = false;
+      }
+
+    } else if (piece.getName().equals("è»Š")) {
+      if (startI == endI) {
+        int j = 0;
+        for (j = minJ + 1; j <= maxJ - 1; j++) {
+          if (point[startI][j].isPiece()) {
+            å¯å¦èµ°æ£‹ = false;
+            break;
+          }
+        }
+        if (j == maxJ) {
+          å¯å¦èµ°æ£‹ = true;
+        }
+      } else if (startJ == endJ) {
+        int i = 0;
+        for (i = minI + 1; i <= maxI - 1; i++) {
+          if (point[i][startJ].isPiece()) {
+            å¯å¦èµ°æ£‹ = false;
+            break;
+          }
+        }
+        if (i == maxI) {
+          å¯å¦èµ°æ£‹ = true;
+        }
+      } else {
+        å¯å¦èµ°æ£‹ = false;
+      }
+
+    } else if (piece.getName().equals("é©¬")) {
+      int xAxle = Math.abs(startI - endI);
+      int yAxle = Math.abs(startJ - endJ);
+
+      if (xAxle == 2 && yAxle == 1) {
+        if (endI > startI) {
+          if (point[startI + 1][startJ].isPiece()) {
+            å¯å¦èµ°æ£‹ = false;
+          } else {
+            å¯å¦èµ°æ£‹ = true;
+          }
+        }
+        if (endI < startI) {
+          if (point[startI - 1][startJ].isPiece()) {
+            å¯å¦èµ°æ£‹ = false;
+          } else {
+            å¯å¦èµ°æ£‹ = true;
+          }
+        }
+
+      } else if (xAxle == 1 && yAxle == 2) {
+        if (endJ > startJ) {
+          if (point[startI][startJ + 1].isPiece()) {
+            å¯å¦èµ°æ£‹ = false;
+          } else {
+            å¯å¦èµ°æ£‹ = true;
+          }
+        }
+        if (endJ < startJ) {
+          if (point[startI][startJ - 1].isPiece()) {
+            å¯å¦èµ°æ£‹ = false;
+          } else {
+            å¯å¦èµ°æ£‹ = true;
+          }
+        }
+
+      } else {
+        å¯å¦èµ°æ£‹ = false;
+      }
+    } else if (piece.getName().equals("é¦¬")) {
+      int xAxle = Math.abs(startI - endI);
+      int yAxle = Math.abs(startJ - endJ);
+
+      if (xAxle == 2 && yAxle == 1) {
+        if (endI > startI) {
+          if (point[startI + 1][startJ].isPiece()) {
+            å¯å¦èµ°æ£‹ = false;
+          } else {
+            å¯å¦èµ°æ£‹ = true;
+          }
+        }
+        if (endI < startI) {
+          if (point[startI - 1][startJ].isPiece()) {
+            å¯å¦èµ°æ£‹ = false;
+          } else {
+            å¯å¦èµ°æ£‹ = true;
+          }
+        }
+
+      } else if (xAxle == 1 && yAxle == 2) {
+        if (endJ > startJ) {
+          if (point[startI][startJ + 1].isPiece()) {
+            å¯å¦èµ°æ£‹ = false;
+          } else {
+            å¯å¦èµ°æ£‹ = true;
+          }
+        }
+        if (endJ < startJ) {
+          if (point[startI][startJ - 1].isPiece()) {
+            å¯å¦èµ°æ£‹ = false;
+          } else {
+            å¯å¦èµ°æ£‹ = true;
+          }
+        }
+
+      } else {
+        å¯å¦èµ°æ£‹ = false;
+      }
+    } else if (piece.getName().equals("è±¡")) {
+      int centerI = (startI + endI) / 2;
+      int centerJ = (startJ + endJ) / 2;
+      int xAxle = Math.abs(startI - endI);
+      int yAxle = Math.abs(startJ - endJ);
+      if (xAxle == 2 && yAxle == 2 && endJ <= 5) {
+        if (point[centerI][centerJ].isPiece()) {
+          å¯å¦èµ°æ£‹ = false;
+        } else {
+          å¯å¦èµ°æ£‹ = true;
+        }
+      } else {
+        å¯å¦èµ°æ£‹ = false;
+      }
+    } else if (piece.getName().equals("ç›¸")) {
+      int centerI = (startI + endI) / 2;
+      int centerJ = (startJ + endJ) / 2;
+      int xAxle = Math.abs(startI - endI);
+      int yAxle = Math.abs(startJ - endJ);
+      if (xAxle == 2 && yAxle == 2 && endJ >= 6) {
+        if (point[centerI][centerJ].isPiece()) {
+          å¯å¦èµ°æ£‹ = false;
+        } else {
+          å¯å¦èµ°æ£‹ = true;
+        }
+      } else {
+        å¯å¦èµ°æ£‹ = false;
+      }
+    } else if (piece.getName().equals("ç‚®")) {
+      int number = 0;
+      if (startI == endI) {
+        int j = 0;
+        for (j = minJ + 1; j <= maxJ - 1; j++) {
+          if (point[startI][j].isPiece()) {
+            number++;
+          }
+        }
+        if (number > 1) {
+          å¯å¦èµ°æ£‹ = false;
+        } else if (number == 1) {
+          if (point[endI][endJ].isPiece()) {
+            å¯å¦èµ°æ£‹ = true;
+          }
+        } else if (number == 0 && !point[endI][endJ].isPiece()) {
+          å¯å¦èµ°æ£‹ = true;
+        }
+      } else if (startJ == endJ) {
+        int i = 0;
+        for (i = minI + 1; i <= maxI - 1; i++) {
+          if (point[i][startJ].isPiece()) {
+            number++;
+          }
+        }
+        if (number > 1) {
+          å¯å¦èµ°æ£‹ = false;
+        } else if (number == 1) {
+          if (point[endI][endJ].isPiece()) {
+            å¯å¦èµ°æ£‹ = true;
+          }
+        } else if (number == 0 && !point[endI][endJ].isPiece()) {
+          å¯å¦èµ°æ£‹ = true;
+        }
+      } else {
+        å¯å¦èµ°æ£‹ = false;
+      }
+    } else if (piece.getName().equals("å…µ")) {
+      int xAxle = Math.abs(startI - endI);
+      int yAxle = Math.abs(startJ - endJ);
+
+      if (endJ >= 6) {
+        if (startJ - endJ == 1 && xAxle == 0) {
+          å¯å¦èµ°æ£‹ = true;
+        }
+
+        else {
+          å¯å¦èµ°æ£‹ = false;
+        }
+      } else if (endJ <= 5) {
+        if ((startJ - endJ == 1) && (xAxle == 0)) {
+          å¯å¦èµ°æ£‹ = true;
+        } else if ((endJ - startJ == 0) && (xAxle == 1)) {
+          å¯å¦èµ°æ£‹ = true;
+        } else {
+          å¯å¦èµ°æ£‹ = false;
+        }
+      }
+    } else if (piece.getName().equals("å’")) {
+      int xAxle = Math.abs(startI - endI);
+      int yAxle = Math.abs(startJ - endJ);
+
+      if (endJ <= 5) {
+        if (endJ - startJ == 1 && xAxle == 0) {
+          å¯å¦èµ°æ£‹ = true;
+        } else {
+          å¯å¦èµ°æ£‹ = false;
+        }
+      } else if (endJ >= 6) {
+        if ((endJ - startJ == 1) && (xAxle == 0)) {
+          å¯å¦èµ°æ£‹ = true;
+        } else if ((endJ - startJ == 0) && (xAxle == 1)) {
+          å¯å¦èµ°æ£‹ = true;
+        } else {
+          å¯å¦èµ°æ£‹ = false;
+        }
+      }
+    }
+
+    else if (piece.getName().equals("å£«")) {
+      int xAxle = Math.abs(startI - endI);
+      int yAxle = Math.abs(startJ - endJ);
+      if (endI <= 6 && endI >= 4 && xAxle == 1 && yAxle == 1) {
+        å¯å¦èµ°æ£‹ = true;
+      } else {
+        å¯å¦èµ°æ£‹ = false;
+      }
+    } else if (piece.getName().equals("ä»•")) {
+      int xAxle = Math.abs(startI - endI);
+      int yAxle = Math.abs(startJ - endJ);
+      if (endI <= 6 && endI >= 4 && xAxle == 1 && yAxle == 1) {
+        å¯å¦èµ°æ£‹ = true;
+      } else {
+        å¯å¦èµ°æ£‹ = false;
+      }
+    } else if ((piece.getName().equals("å¸…"))
+        || (piece.getName().equals("å°†"))) {
+      int xAxle = Math.abs(startI - endI);
+      int yAxle = Math.abs(startJ - endJ);
+      if (endI <= 6 && endI >= 4) {
+        if ((xAxle == 1 && yAxle == 0) || (xAxle == 0 && yAxle == 1)) {
+          å¯å¦èµ°æ£‹ = true;
+        } else {
+          å¯å¦èµ°æ£‹ = false;
+        }
+      } else {
+        å¯å¦èµ°æ£‹ = false;
+      }
+    }
+
+    return å¯å¦èµ°æ£‹;
+
+  }
+}

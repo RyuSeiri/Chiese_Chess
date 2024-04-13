@@ -1,139 +1,155 @@
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Container;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.LinkedList;
 
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JSplitPane;
+import javax.swing.SwingConstants;
 
-	import javax.swing.*; 
-	import java.awt.*; 
-	import java.awt.event.*; 
-	import java.io.*; 
-	import java.util.LinkedList; 
-	  
-	/** 
-	 * ÏóÆåÖ÷Àà 
-	 * 
-	 * @author cnlht 
-	 */
-	public class ChineseChess extends JFrame implements ActionListener { 
-	 ChessBoard board = null; 
-	 Demon demon = null; 
-	 MakeChessManual record = null; 
-	 Container con = null; 
-	 JMenuBar bar; 
-	 JMenu fileMenu; 
-	 JMenuItem ÖÆ×÷ÆåÆ×, ±£´æÆåÆ×, ÑİÊ¾ÆåÆ×; 
-	 JFileChooser fileChooser = null; 
-	 LinkedList ÆåÆ× = null; 
-	  
-	 public ChineseChess() { 
-	  bar = new JMenuBar(); 
-	  fileMenu = new JMenu("ÖĞ¹úÏóÆå"); 
-	  ÖÆ×÷ÆåÆ× = new JMenuItem("ÖÆ×÷ÆåÆ×"); 
-	  ±£´æÆåÆ× = new JMenuItem("±£´æÆåÆ×"); 
-	  ±£´æÆåÆ×.setEnabled(false); 
-	  ÑİÊ¾ÆåÆ× = new JMenuItem("ÑİÊ¾ÆåÆ×"); 
-	  fileMenu.add(ÖÆ×÷ÆåÆ×); 
-	  fileMenu.add(±£´æÆåÆ×); 
-	  fileMenu.add(ÑİÊ¾ÆåÆ×); 
-	  bar.add(fileMenu); 
-	  setJMenuBar(bar); 
-	  setTitle(ÖÆ×÷ÆåÆ×.getText()); 
-	  ÖÆ×÷ÆåÆ×.addActionListener(this); 
-	  ±£´æÆåÆ×.addActionListener(this); 
-	  ÑİÊ¾ÆåÆ×.addActionListener(this); 
-	  board = new ChessBoard(45, 45, 9, 10); 
-	  record = board.record; 
-	  con = getContentPane(); 
-	  JSplitPane split = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true, 
-	    board, record); 
-	  split.setDividerSize(5); 
-	  split.setDividerLocation(460); 
-	  con.add(split, BorderLayout.CENTER); 
-	  addWindowListener(new WindowAdapter() { 
-	   public void windowClosing(WindowEvent e) { 
-	    System.exit(0); 
-	   } 
-	  }); 
-	  setVisible(true); 
-	  setBounds(60, 20, 690, 540); 
-	  fileChooser = new JFileChooser(); 
-	  con.validate(); 
-	  validate(); 
-	 } 
-	  
-	 public void actionPerformed(ActionEvent e) { 
-	  if (e.getSource() == ÖÆ×÷ÆåÆ×) { 
-	   con.removeAll(); 
-	   ±£´æÆåÆ×.setEnabled(true); 
-	   this.setTitle(ÖÆ×÷ÆåÆ×.getText()); 
-	   board = new ChessBoard(45, 45, 9, 10); 
-	   record = board.record; 
-	   JSplitPane split = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, 
-	     true, board, record); 
-	   split.setDividerSize(5); 
-	   split.setDividerLocation(460); 
-	   con.add(split, BorderLayout.CENTER); 
-	   validate(); 
-	  } 
-	  if (e.getSource() == ±£´æÆåÆ×) { 
-	   int state = fileChooser.showSaveDialog(null); 
-	   File saveFile = fileChooser.getSelectedFile(); 
-	   if (saveFile != null && state == JFileChooser.APPROVE_OPTION) { 
-	    try { 
-	     FileOutputStream outOne = new FileOutputStream(saveFile); 
-	     ObjectOutputStream outTwo = new ObjectOutputStream(outOne); 
-	     outTwo.writeObject(record.»ñÈ¡ÆåÆ×()); 
-	     outOne.close(); 
-	     outTwo.close(); 
-	    } catch (IOException event) { 
-	    } 
-	   } 
-	  } 
-	  if (e.getSource() == ÑİÊ¾ÆåÆ×) { 
-	   con.removeAll(); 
-	   con.repaint(); 
-	   con.validate(); 
-	   validate(); 
-	   ±£´æÆåÆ×.setEnabled(false); 
-	  
-	   int state = fileChooser.showOpenDialog(null); 
-	   File openFile = fileChooser.getSelectedFile(); 
-	   if (openFile != null && state == JFileChooser.APPROVE_OPTION) { 
-	    try { 
-	     FileInputStream inOne = new FileInputStream(openFile); 
-	     ObjectInputStream inTwo = new ObjectInputStream(inOne); 
-	     ÆåÆ× = (LinkedList) inTwo.readObject(); 
-	     inOne.close(); 
-	     inTwo.close(); 
-	     ChessBoard board = new ChessBoard(45, 45, 9, 10); 
-	     demon = new Demon(board); 
-	     demon.setÆåÆ×(ÆåÆ×); 
-	     con.add(demon, BorderLayout.CENTER); 
-	     con.validate(); 
-	     validate(); 
-	     this.setTitle(ÑİÊ¾ÆåÆ×.getText() + ":" + openFile); 
-	    } catch (Exception event) { 
-	     JLabel label = new JLabel("²»ÊÇÆåÆ×ÎÄ¼ş"); 
-	     label.setFont(new Font("Á¥Êé", Font.BOLD, 60)); 
-	     label.setForeground(Color.red); 
-	     label.setHorizontalAlignment(SwingConstants.CENTER); 
-	     con.add(label, BorderLayout.CENTER); 
-	     con.validate(); 
-	     this.setTitle("Ã»ÓĞ´ò¿ªÆåÆ×"); 
-	     validate(); 
-	    } 
-	   } else { 
-	    JLabel label = new JLabel("Ã»ÓĞ´ò¿ªÆåÆ×ÎÄ¼şÄØ"); 
-	    label.setFont(new Font("Á¥Êé", Font.BOLD, 50)); 
-	    label.setForeground(Color.pink); 
-	    label.setHorizontalAlignment(SwingConstants.CENTER); 
-	    con.add(label, BorderLayout.CENTER); 
-	    con.validate(); 
-	    this.setTitle("Ã»ÓĞ´ò¿ªÆåÆ×ÎÄ¼şÄØ"); 
-	    validate(); 
-	   } 
-	  } 
-	 } 
-	  
-	 public static void main(String args[]) { 
-	  new ChineseChess(); 
-	 } 
-	} 
+/**
+ * è±¡æ£‹ä¸»ç±»
+ * 
+ * @author cnlht
+ */
+public class ChineseChess extends JFrame implements ActionListener {
+	ChessBoard board = null;
+	Demo demo = null;
+	MakeChessManual record = null;
+	Container con = null;
+	JMenuBar bar;
+	JMenu fileMenu;
+	JMenuItem åˆ¶ä½œæ£‹è°±, ä¿å­˜æ£‹è°±, æ¼”ç¤ºæ£‹è°±;
+	JFileChooser fileChooser = null;
+	LinkedList æ£‹è°± = null;
 
+	public ChineseChess() {
+		bar = new JMenuBar();
+		fileMenu = new JMenu("ä¸­å›½è±¡æ£‹");
+		åˆ¶ä½œæ£‹è°± = new JMenuItem("åˆ¶ä½œæ£‹è°±");
+		ä¿å­˜æ£‹è°± = new JMenuItem("ä¿å­˜æ£‹è°±");
+		ä¿å­˜æ£‹è°±.setEnabled(false);
+		æ¼”ç¤ºæ£‹è°± = new JMenuItem("æ¼”ç¤ºæ£‹è°±");
+		fileMenu.add(åˆ¶ä½œæ£‹è°±);
+		fileMenu.add(ä¿å­˜æ£‹è°±);
+		fileMenu.add(æ¼”ç¤ºæ£‹è°±);
+		bar.add(fileMenu);
+		setJMenuBar(bar);
+		setTitle(åˆ¶ä½œæ£‹è°±.getText());
+		åˆ¶ä½œæ£‹è°±.addActionListener(this);
+		ä¿å­˜æ£‹è°±.addActionListener(this);
+		æ¼”ç¤ºæ£‹è°±.addActionListener(this);
+		board = new ChessBoard(45, 45, 9, 10);
+		record = board.record;
+		con = getContentPane();
+		JSplitPane split = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true,
+				board, record);
+		split.setDividerSize(5);
+		split.setDividerLocation(460);
+		con.add(split, BorderLayout.CENTER);
+		addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent e) {
+				System.exit(0);
+			}
+		});
+		setVisible(true);
+		setBounds(60, 20, 690, 540);
+		fileChooser = new JFileChooser();
+		con.validate();
+		validate();
+	}
+
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == åˆ¶ä½œæ£‹è°±) {
+			con.removeAll();
+			ä¿å­˜æ£‹è°±.setEnabled(true);
+			this.setTitle(åˆ¶ä½œæ£‹è°±.getText());
+			board = new ChessBoard(45, 45, 9, 10);
+			record = board.record;
+			JSplitPane split = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
+					true, board, record);
+			split.setDividerSize(5);
+			split.setDividerLocation(460);
+			con.add(split, BorderLayout.CENTER);
+			validate();
+		}
+		if (e.getSource() == ä¿å­˜æ£‹è°±) {
+			int state = fileChooser.showSaveDialog(null);
+			File saveFile = fileChooser.getSelectedFile();
+			if (saveFile != null && state == JFileChooser.APPROVE_OPTION) {
+				try {
+					FileOutputStream outOne = new FileOutputStream(saveFile);
+					ObjectOutputStream outTwo = new ObjectOutputStream(outOne);
+					outTwo.writeObject(record.è·å–æ£‹è°±());
+					outOne.close();
+					outTwo.close();
+				} catch (IOException event) {
+				}
+			}
+		}
+		if (e.getSource() == æ¼”ç¤ºæ£‹è°±) {
+			con.removeAll();
+			con.repaint();
+			con.validate();
+			validate();
+			ä¿å­˜æ£‹è°±.setEnabled(false);
+
+			int state = fileChooser.showOpenDialog(null);
+			File openFile = fileChooser.getSelectedFile();
+			if (openFile != null && state == JFileChooser.APPROVE_OPTION) {
+				try {
+					FileInputStream inOne = new FileInputStream(openFile);
+					ObjectInputStream inTwo = new ObjectInputStream(inOne);
+					æ£‹è°± = (LinkedList) inTwo.readObject();
+					inOne.close();
+					inTwo.close();
+					ChessBoard board = new ChessBoard(45, 45, 9, 10);
+					demo = new Demo(board);
+					demo.setæ£‹è°±(æ£‹è°±);
+					con.add(demo, BorderLayout.CENTER);
+					con.validate();
+					validate();
+					this.setTitle(æ¼”ç¤ºæ£‹è°±.getText() + ":" + openFile);
+				} catch (Exception event) {
+					JLabel label = new JLabel("ä¸æ˜¯æ£‹è°±æ–‡ä»¶");
+					label.setFont(new Font("éš¶ä¹¦", Font.BOLD, 60));
+					label.setForeground(Color.red);
+					label.setHorizontalAlignment(SwingConstants.CENTER);
+					con.add(label, BorderLayout.CENTER);
+					con.validate();
+					this.setTitle("æ²¡æœ‰æ‰“å¼€æ£‹è°±");
+					validate();
+				}
+			} else {
+				JLabel label = new JLabel("æ²¡æœ‰æ‰“å¼€æ£‹è°±æ–‡ä»¶å‘¢");
+				label.setFont(new Font("éš¶ä¹¦", Font.BOLD, 50));
+				label.setForeground(Color.pink);
+				label.setHorizontalAlignment(SwingConstants.CENTER);
+				con.add(label, BorderLayout.CENTER);
+				con.validate();
+				this.setTitle("æ²¡æœ‰æ‰“å¼€æ£‹è°±æ–‡ä»¶å‘¢");
+				validate();
+			}
+		}
+	}
+
+	public static void main(String args[]) {
+		new ChineseChess();
+	}
+}

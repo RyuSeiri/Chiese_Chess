@@ -1,65 +1,64 @@
-/** 
- * ÆåµãÀà 
+/**
+ * æ£‹ç‚¹ç±»
  * 
- * @author cnlht 
+ * @author cnlht
  */
-public class ChessPoint { 
- /** Æå×Ó×ø±ê */
- int x, y; 
-   
- /** ¸Ã×ø±ê ÊÇ·ñÓĞ×Ó*/
- boolean ÓĞÆå×Ó; 
-   
- /** ¸Ä×ø±êµÄÆå×Ó */
- ChessPiece piece = null; 
-   
- /** ×ø±êËùÊôÆåÅÌ */
- ChessBoard board = null; 
-  
- public ChessPoint(int x, int y, boolean boo) { 
-  this.x = x; 
-  this.y = y; 
-  ÓĞÆå×Ó = boo; 
- } 
-  
- public boolean isPiece() { 
-  return ÓĞÆå×Ó; 
- } 
-  
- public void setÓĞÆå×Ó(boolean boo) { 
-  ÓĞÆå×Ó = boo; 
- } 
-  
- public int getX() { 
-  return x; 
- } 
-  
- public int getY() { 
-  return y; 
- } 
-  
- // ÉèÖÃ¸ÄµãÆå×Ó 
- public void setPiece(ChessPiece piece, ChessBoard board) { 
-  this.board = board; 
-  this.piece = piece; 
-  board.add(piece); 
-  int w = (board.unitWidth); 
-  int h = (board.unitHeight); 
-  piece.setBounds(x - w / 2, y - h / 2, w, h);// Æå×ÓÎ»ÖÃ£¬¿í¶È£¬¸ß¶È 
-  ÓĞÆå×Ó = true; 
-  board.validate(); 
- } 
-  
- public ChessPiece getPiece() { 
-  return piece; 
- } 
-  
- public void reMovePiece(ChessPiece piece, ChessBoard board) { 
-  this.board = board; 
-  this.piece = piece; 
-  board.remove(piece); 
-  board.validate(); 
-  ÓĞÆå×Ó = false; 
- } 
-} 
+public class ChessPoint {
+    /** æ£‹å­åæ ‡ */
+    int x, y;
 
+    /** è¯¥åæ ‡ æ˜¯å¦æœ‰å­ */
+    boolean æœ‰æ£‹å­;
+
+    /** æ”¹åæ ‡çš„æ£‹å­ */
+    ChessPiece piece = null;
+
+    /** åæ ‡æ‰€å±æ£‹ç›˜ */
+    ChessBoard board = null;
+
+    public ChessPoint(int x, int y, boolean boo) {
+        this.x = x;
+        this.y = y;
+        æœ‰æ£‹å­ = boo;
+    }
+
+    public boolean isPiece() {
+        return æœ‰æ£‹å­;
+    }
+
+    public void setæœ‰æ£‹å­(boolean boo) {
+        æœ‰æ£‹å­ = boo;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    // è®¾ç½®æ”¹ç‚¹æ£‹å­
+    public void setPiece(ChessPiece piece, ChessBoard board) {
+        this.board = board;
+        this.piece = piece;
+        board.add(piece);
+        int w = (board.unitWidth);
+        int h = (board.unitHeight);
+        piece.setBounds(x - w / 2, y - h / 2, w, h);// æ£‹å­ä½ç½®ï¼Œå®½åº¦ï¼Œé«˜åº¦
+        æœ‰æ£‹å­ = true;
+        board.validate();
+    }
+
+    public ChessPiece getPiece() {
+        return piece;
+    }
+
+    public void reMovePiece(ChessPiece piece, ChessBoard board) {
+        this.board = board;
+        this.piece = piece;
+        board.remove(piece);
+        board.validate();
+        æœ‰æ£‹å­ = false;
+    }
+}

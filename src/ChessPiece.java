@@ -1,70 +1,71 @@
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 
+import javax.swing.JLabel;
 
-	import javax.swing.*; 
-	import java.awt.*; 
-	import java.awt.event.*; 
-	  
-	/** 
-	 * Æå×ÓÀà 
-	 * 
-	 * @author cnlht 
-	 */
-	public class ChessPiece extends JLabel { 
-	 String name; // Æå×ÓÃû×Ö 
-	 Color backColor = null, foreColor;// ±³¾°É«ºÍÇ°¾°É« 
-	 String ÑÕÉ«Àà±ğ = null; 
-	 ChessBoard board = null; 
-	 int width, height;// ´óĞ¡ 
-	  
-	 public ChessPiece(String name, Color fc, Color bc, int width, int height, 
-	   ChessBoard board) {// ¹¹ÔìÆå×Ó 
-	  this.name = name; 
-	  this.board = board; 
-	  this.width = width; 
-	  this.height = height; 
-	  foreColor = fc; 
-	  backColor = bc; 
-	  setSize(width, height); 
-	  setBackground(bc); 
-	  addMouseMotionListener(board); 
-	  addMouseListener(board); 
-	 } 
-	  
-	 // »æÖÆÆå×Ó 
-	 public void paint(Graphics g) {  
-	  g.drawImage(board.pieceImg, 2, 2, width-2, height-2, null); 
-	  g.setColor(foreColor); 
-	  g.setFont(new Font("¿¬Ìå", Font.BOLD, 26)); 
-	  g.drawString(name, 7, height - 8);// ÔÚÆå×ÓÉÏ»æÖÆ ¡°Æå×ÓÃû¡± 
-	  g.setColor(Color.black); 
-	  //g.drawOval(1, 1, width - 1, height - 1); 
-	  float lineWidth = 2.3f; 
-	  ((Graphics2D)g).setStroke(new BasicStroke(lineWidth)); 
-	  ((Graphics2D)g).drawOval(2, 2, width-2, height-2); 
-	 } 
-	  
-	 public int getWidth() { 
-	  return width; 
-	 } 
-	  
-	 public int getHeight() { 
-	  return height; 
-	 } 
-	  
-	 public String getName() { 
-	  return name; 
-	 } 
-	  
-	 public Color »ñÈ¡Æå×ÓÑÕÉ«() { 
-	  return foreColor; 
-	 } 
-	  
-	 public void setÆå×ÓÀà±ğ(String Àà±ğ) { 
-	  ÑÕÉ«Àà±ğ = Àà±ğ; 
-	 } 
-	  
-	 public String Æå×ÓÀà±ğ() { 
-	  return ÑÕÉ«Àà±ğ; 
-	 } 
-	} 
+/**
+ * æ£‹å­ç±»
+ * 
+ * @author cnlht
+ */
+public class ChessPiece extends JLabel {
+	String name; // æ£‹å­åå­—
+	Color backColor = null, foreColor;// èƒŒæ™¯è‰²å’Œå‰æ™¯è‰²
+	String é¢œè‰²ç±»åˆ« = null;
+	ChessBoard board = null;
+	int width, height;// å¤§å°
 
+	public ChessPiece(String name, Color fc, Color bc, int width, int height,
+			ChessBoard board) {// æ„é€ æ£‹å­
+		this.name = name;
+		this.board = board;
+		this.width = width;
+		this.height = height;
+		foreColor = fc;
+		backColor = bc;
+		setSize(width, height);
+		setBackground(bc);
+		addMouseMotionListener(board);
+		addMouseListener(board);
+	}
+
+	// ç»˜åˆ¶æ£‹å­
+	public void paint(Graphics g) {
+		g.drawImage(board.pieceImg, 2, 2, width - 2, height - 2, null);
+		g.setColor(foreColor);
+		g.setFont(new Font("æ¥·ä½“", Font.BOLD, 26));
+		g.drawString(name, 7, height - 8);// åœ¨æ£‹å­ä¸Šç»˜åˆ¶ â€œæ£‹å­åâ€
+		g.setColor(Color.black);
+		// g.drawOval(1, 1, width - 1, height - 1);
+		float lineWidth = 2.3f;
+		((Graphics2D) g).setStroke(new BasicStroke(lineWidth));
+		((Graphics2D) g).drawOval(2, 2, width - 2, height - 2);
+	}
+
+	public int getWidth() {
+		return width;
+	}
+
+	public int getHeight() {
+		return height;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public Color è·å–æ£‹å­é¢œè‰²() {
+		return foreColor;
+	}
+
+	public void setæ£‹å­ç±»åˆ«(String ç±»åˆ«) {
+		é¢œè‰²ç±»åˆ« = ç±»åˆ«;
+	}
+
+	public String æ£‹å­ç±»åˆ«() {
+		return é¢œè‰²ç±»åˆ«;
+	}
+}

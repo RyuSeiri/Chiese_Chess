@@ -1,7 +1,7 @@
 import java.awt.Point; 
   
 /** 
- * ×ß²½Àà 
+ * èµ°æ­¥ç±» 
  * 
  * @author cnlht 
  * 
